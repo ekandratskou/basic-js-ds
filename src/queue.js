@@ -13,6 +13,7 @@ const { NotImplementedError } = require("../lib/errors");
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 
+//определение узла связанного списка
 class ListNode {
   constructor(value) {
     this.value = value;
@@ -20,6 +21,7 @@ class ListNode {
   }
 }
 
+//определение очереди
 class Queue {
   constructor() {
     this.head = null; // указатель на первый элемент (начало очереди)
@@ -28,8 +30,7 @@ class Queue {
 
   getUnderlyingList() {
     const toPlain = (node) =>
-      node ? { value: node.value, next: toPlain(node.next) } : null; // для пустой очереди вернет null
-    return toPlain(this.head);
+      node ? { value: node.value, next: toPlain(node.next) } : null; // рекурсивно строим всю цепочку узлов
   }
 
   // добавляем элемент в конец очереди
@@ -39,8 +40,8 @@ class Queue {
       this.head = newNode; // очередь пуста
       this.tail = newNode;
     } else {
-      this.tail.next = newNode;
-      this.tail = newNode;
+      this.tail.next = newNode; // связываем старый хвост с новым узлом
+      this.tail = newNode; //обновляем хвост, теперь он указывает на новый узел
     }
   }
 
