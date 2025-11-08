@@ -15,8 +15,8 @@ const { NotImplementedError } = require("../lib/errors");
 
 //определение узла связанного списка
 class ListNode {
-  constructor(value) {
-    this.value = value;
+  constructor(x) {
+    this.value = x;
     this.next = null;
   }
 }
@@ -25,37 +25,36 @@ class ListNode {
 class Queue {
   constructor() {
     this.head = null; // указатель на первый элемент (начало очереди)
-    this.tail = null; // второй элемент (конец очереди)
+    this.tail = null; // последний элемент (конец очереди)
   }
 
   getUnderlyingList() {
-    const toPlain = (node) =>
-      node ? { value: node.value, next: toPlain(node.next) } : null; // рекурсивно строим всю цепочку узлов
+    return this.head;
   }
 
   // добавляем элемент в конец очереди
   enqueue(value) {
-    const newNode = new ListNode(value);
-    if (!this.head) {
-      this.head = newNode; // очередь пуста
-      this.tail = newNode;
+    const node = { value, next: null }; // создаем узел как простой объект
+    if (this.head === null) {
+      this.head = node; // очередь пуста
+      this.tail = node;
     } else {
-      this.tail.next = newNode; // связываем старый хвост с новым узлом
-      this.tail = newNode; //обновляем хвост, теперь он указывает на новый узел
+      this.tail.next = node; // связываем старый хвост с новым узлом
+      this.tail = node; //обновляем хвост, теперь он указывает на новый узел
     }
   }
 
   // удаляем элемент из начала очереди и возвращаем его значение
   dequeue() {
-    if (!this.head) {
-      return undefined; // очередь пуста
-    }
-    const removedValue = this.head.value;
+    if (this.head === null) return undefined;
+    const value = this.head.value;
     this.head = this.head.next;
-    if (!this.head) {
-      this.tail = null; // если очередь опустела
+    if (this.head === null) {
+      //queue is empty
+      this.tail = null;
     }
-    return removedValue;
+
+    return value;
   }
 }
 
